@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Form</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<h2>form 表单</h2>
+
+<form novalidate>
+    First Name:<br>
+    <input type="text" ng-model="people.firstName"><br>
+    Last Name:<br>
+    <input type="text" ng-model="people.lastName">
+    <br><br>
+    <button ng-click="reset()">RESET</button>
+</form>
+
+<p>form = {{people}}</p>
+<p>master = {{master}}</p>
+<small>ps: <code>novalidate</code> 属性是在 HTML5 中新增的。禁用了使用浏览器的默认验证</small>
+<br>
+<hr>
+
+
+
+<h2>Validation Example</h2>
+
+<form name="myForm" novalidate>
+
+<p>用户名:<br>
+  <input type="text" name="user" ng-model="user" required>
+  <span style="color:red" ng-show="myForm.user.$dirty && myForm.user.$invalid">
+  <span ng-show="myForm.user.$error.required">用户名是必须的。</span>
+  </span>
+</p>
+myForm.user.$dirty: {{myForm.user.$dirty}}
+<br>
+myForm.user.$invalid: {{myForm.user.$invalid}}
+<br>
+myForm.user.$error.required: {{myForm.user.$error.required}}
+
+<p>邮箱:<br>
+  <input type="email" name="email" ng-model="email" required>
+  <span style="color:red" ng-show="myForm.email.$dirty && myForm.email.$invalid">
+  <span ng-show="myForm.email.$error.required">邮箱是必须的。</span>
+  <span ng-show="myForm.email.$error.email">非法的邮箱。</span>
+  </span>
+</p>
+
+<p>
+  <input type="submit"
+  ng-disabled="myForm.user.$dirty && myForm.user.$invalid ||
+  myForm.email.$dirty && myForm.email.$invalid">
+</p>
+
+</form>
+
+<table border="1">
+	<tr>
+		<th>属性</th>
+		<th>描述</th>
+	</tr>
+	<tr>
+		<td>$dirty</td>
+		<td>表单有填写记录</td>
+	</tr>
+	<tr>
+		<td>$valid</td>
+		<td>字段内容合法的</td>
+	</tr>	
+
+	<tr>
+		<td>$invalid</td>
+		<td>字段内容是非法的</td>
+	</tr>	
+
+	<tr>
+		<td>$pristine</td>
+		<td>表单没有填写记录</td>
+	</tr>
+</table>
+
+<script type="text/javascript">
+    var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+
+			$scope.master = {firstName: "John", lastName: "Doe"};
+			$scope.reset = function() {
+				$scope.people = angular.copy($scope.master);
+			};
+			$scope.reset();
+			$scope.user = 'John Doe';
+    		$scope.email = 'john.doe@gmail.com';
+        });
+
+</script>
+</body>
+</html>

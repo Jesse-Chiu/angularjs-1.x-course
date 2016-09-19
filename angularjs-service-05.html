@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <h2>service</h2>
+    <pre>
+	在 AngularJS 中，服务是一个函数或对象，可在你的 AngularJS 应用中使用。
+	AngularJS 内建了30 多个服务。
+</pre>
+
+    <span>url: {{url}}</span>
+    <br>
+    <span>myHeader: {{myHeader}}</span>
+    <br>
+    myHeader:<span ng-bind="myHeader"></span>
+
+    <br>
+    myFilter: <span>{{'jesse'| myFilter}}</span>
+
+    <!-- <button ng-click="cancel()">CancelInterval</button> -->
+
+    <script type="text/javascript">
+    var app = angular.module('myApp', []);
+    	// 定义服务
+    	app.service('max',function(){
+    		function max(a,b){
+    			return a > b ? a : b;
+    		}
+
+    		return {max:max};
+    	});
+
+    	// 定义过滤器
+    	app.filter('myFilter',function(){
+
+    		return function hello(a){
+    			return 'Hello: ' + a;
+    		}
+
+    	});
+
+        app.controller('myCtrl', function($scope,$http,$location,$timeout,$interval,max) {
+            $scope.url = $location.absUrl();
+
+            console.log('max: ' + max.max(5,9));// 9
+
+			$http.get("data.json")
+    		.success(function(response) {
+    			$scope.names = response.records;
+    			console.log('names: ' + JSON.stringify(response));
+    		});
+
+			$timeout(function () {
+				$scope.myHeader = "How are you today?";
+			}, 1000,true);
+
+			// var inter = $interval(function(){
+			// 	console.log('hello');
+			// },100);
+
+			// console.log(inter);
+
+			// $scope.cancel = function(){
+			// 	console.log('cancel fun');
+			// 	$interval.cancel(inter);
+			// }
+
+        });
+
+    </script>
+</body>
+
+</html>

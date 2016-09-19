@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+    <script type="text/javascript" src="./lib/angular-route.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+<h2>AngularJS 路由</h2>
+<pre>
+AngularJS 路由允许我们通过不同的 URL 访问不同的内容。
+通过 AngularJS 可以实现多视图的单页Web应用（single page web application，SPA）。
+通常我们的URL形式为 http://lucky-kuku.com/first/page，但在单页Web应用中 AngularJS 通过 # + 标记 实现，例如：
+	http://lucky-kuku.com/#/first
+	http://lucky-kuku.com/#/second
+	http://lucky-kuku.com/#/third
+当我们点击以上的任意一个链接时，向服务端请的地址都是一样的 (http://lucky-kuku.com/)。 因为 # 号之后的内容在向服务端请求时会被浏览器忽略掉。 所以我们就需要在客户端实现 # 号后面内容的功能实现。 AngularJS 路由 就通过 # + 标记 帮助我们区分不同的逻辑页面并将不同的页面绑定到对应的控制器上。
+</pre>
+
+<br>
+<ul>
+    <li><a href="#/">首页</a></li>
+    <li><a href="#/computers">电脑</a></li>
+    <li><a href="#/printers">打印机</a></li>
+    <li><a href="#/blabla">其他</a></li>
+</ul>
+ 
+<div ng-view></div>
+
+<br>
+<br>
+<pre>
+$routeProvider 为我们提供了 when(path,object) & otherwise(object) 函数按顺序定义所有路由，函数包含两个参数:
+	第一个参数是 URL 或者 URL 正则规则。
+	第二个参数是路由配置对象
+</pre>
+
+<br>
+<br>
+<h2>路由设置对象</h2>
+<pre>
+AngularJS 路由也可以通过不同的模板来实现。
+$routeProvider.when 函数的第一个参数是 URL 或者 URL 正则规则，第二个参数为路由配置对象。
+路由配置对象语法规则如下：
+
+$routeProvider.when(url, {
+    template: string,
+    templateUrl: string,
+    controller: string, function 或 array,
+    controllerAs: string,
+    redirectTo: string, function,
+    resolve: object<key, function>
+});
+
+参数说明：
+template:
+如果我们只需要在 ng-view 中插入简单的 HTML 内容，则使用该参数：
+.when('/computers',{template:'这是电脑分类页面'})
+templateUrl:
+如果我们只需要在 ng-view 中插入 HTML 模板文件，则使用该参数：
+$routeProvider.when('/computers', {
+    templateUrl: 'views/computers.html',
+});
+以上代码会从服务端获取 views/computers.html 文件内容插入到 ng-view 中。
+controller:
+function、string或数组类型，在当前模板上执行的controller函数，生成新的scope。
+controllerAs:
+string类型，为controller指定别名。
+redirectTo:
+重定向的地址。
+resolve:
+指定当前controller所依赖的其他模块。
+</pre>
+
+
+<script type="text/javascript">
+    var app = angular.module('myApp', ['ngRoute']);
+
+    	app.config(function($routeProvider){
+            // $routeProvider
+            // .when('/',{template:'这是首页页面'})
+            // .when('/computers',{template:'这是电脑分类页面'})
+            // .when('/printers',{template:'这是打印机页面'})
+            // .otherwise({redirectTo:'/'});
+            // 
+            $routeProvider
+            .when('/',{
+            	templateUrl:'views/index.html',
+            	// controller: 'IndexCtrl'
+            })
+            .when('/computers',{
+            	templateUrl:'views/computers.html',
+            	// controller:'ComputersCtrl'
+            })
+            .when('/printers',{
+            	templateUrl:'views/printers.html',
+            	// controller:'printersCtrl',
+            	// redirectTo:'/computers'
+            })
+            .otherwise({redirectTo:'/'});
+    	});
+
+        app.controller('myCtrl', function($scope) {
+
+
+
+
+        });
+</script>
+
+</body>
+</html>

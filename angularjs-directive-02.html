@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+
+<body>
+	<h2>AngularJs 表达式、指令</h2>
+
+	<h3>表达式</h3>
+	<pre>
+	AngularJS 表达式写在双大括号内：{{ expression }}。
+	AngularJS 表达式把数据绑定到 HTML，这与 ng-bind 指令有异曲同工之妙。
+	AngularJS 将在表达式书写的位置"输出"数据。
+	AngularJS 表达式 很像 JavaScript 表达式：它们可以包含文字、运算符和变量。
+	实例 {{ 5 + 5 }} 或 {{ firstName + " " + lastName }}
+	</pre>
+	<br>
+
+<!-- 	<div ng-app="" ng-init="firstName='Jesse';cost=5">
+        <p>姓名为 <span>{{5*cost + 90}}</span></p>
+
+        <p>名字 :
+            <input type="text" ng-model="name" >
+        </p>
+        <h1>Hello {{name}}</h1>
+        <p>姓名为 <span ng-bind="firstName"></span></p>
+        <p>姓名为 <span>{{firstName}}</span></p>
+
+    </div>
+	<br>
+	<hr> -->
+
+
+	<h3>指令</h3>
+	<pre>
+	AngularJS 通过被称为 指令 的新属性来扩展 HTML。
+	AngularJS 通过内置的指令来为应用添加功能。
+	AngularJS 允许你自定义指令
+	AngularJS 指令是扩展的 HTML 属性，带有前缀 ng-。
+		ng-app 指令初始化一个 AngularJS 应用程序。
+		ng-init 指令初始化应用程序数据。
+		ng-model 指令把元素值（比如输入域的值）绑定到应用程序。
+	</pre>
+	<br>
+
+<!-- 	<h2>ng-repeat 指令</h2>
+	<div ng-app="" ng-init="names=['Jani','Hege','Kai']">
+		<p>使用 ng-repeat 来循环数组</p>
+		<ul>
+			<li ng-repeat="x in names">
+			{{ x }}
+			</li>
+		</ul>
+	</div> -->
+
+<!-- 	<div ng-app="" ng-init="names=[
+		{name:'Jani',country:'Norway'},
+		{name:'Hege',country:'Sweden'},
+		{name:'Kai',country:'Denmark'}]">
+
+		<p>循环对象：</p>
+		<ul>
+			<li ng-repeat="x in names">
+				{{ x.name + ', ' + x.country }}
+			</li>
+		</ul>
+	</div> -->
+
+
+<h2>ng-model 指令</h2>
+	<pre>
+		ng-model 指令 绑定 HTML 元素 到应用程序数据。
+		ng-model 指令也可以：
+		为应用程序数据提供类型验证（number、email、required）。
+		为应用程序数据提供状态（invalid、dirty、touched、error）。
+		为 HTML 元素提供 CSS 类。
+		绑定 HTML 元素到 HTML 表单
+		ng-model 指令根据表单域的状态添加/移除以下类：
+		ng-empty
+		ng-not-empty
+		ng-touched
+		ng-untouched
+		ng-valid
+		ng-invalid
+		ng-dirty
+		ng-pending
+		ng-pristine
+	</pre>
+
+<!-- 
+	<h2>应用状态</h2>
+    <form ng-app="" name="myForm" ng-init="myText = 'jesse@landi.com'">
+	    Email:
+	    <input type="email" name="myAddress" ng-model="myText">
+	    <br>
+
+		<h1>状态</h1>
+		$valid: {{myForm.myAddress.$valid}} 
+		<br>
+		$dirty: {{myForm.myAddress.$dirty}}
+		<br>
+		$touched: {{myForm.myAddress.$touched}}
+
+		<br>
+	    <span ng-show="myForm.myAddress.$error.email">不是一个合法的邮箱地址</span>
+	</form>
+	<br>
+	<br> -->
+
+
+<!-- 	<h2>CSS 类</h2>
+	<style>
+		input.ng-invalid {
+		background-color: lightblue;
+		}
+	</style>
+
+	<form ng-app="" name="myForm">
+		输入你的名字:
+		<input name="myAddress" ng-model="text" required>
+	</form>
+	<br>
+	<br> -->
+
+
+	<h2>创建自定义的指令</h2>
+	<pre>
+		除了 AngularJS 内置的指令外，我们还可以创建自定义指令。
+		你可以使用 .directive 函数来添加自定义的指令。
+		要调用自定义指令，HTML 元素上需要添加自定义指令名。
+		使用驼峰法来命名一个指令， kukuDirective, 但在使用它时需要以 - 分割, kuku-directive:
+		restrict 值可以是以下几种:
+		E 作为元素名使用
+		A 作为属性使用
+		C 作为类名使用
+		M 作为注释使用
+		restrict 默认值为 EA, 即可以通过元素名和属性名来调用指令。
+	</pre>
+
+
+	<div ng-app="myApp">
+		A: <kuku-directive></kuku-directive>
+		E: <div kuku-directive></div>
+		C: <div class="kuku-directive"></div>
+		M: <!-- directive: kuku-directive -->
+	</div>
+	<br>
+	<br>
+
+	<script>
+	var app = angular.module("myApp", []);
+	app.directive("kukuDirective", function() {
+	return {
+		restrict : "EACM",
+        replace : true,
+	    template : "<h1>Hello kuku-directive(自定义指令)!</h1>"
+	};
+	});
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+	<style>
+		table, th , td {
+			border: 1px solid grey;
+			border-collapse: collapse;
+			padding: 5px;
+		}
+		table tr:nth-child(odd) {
+			background-color: red;
+		}
+		table tr:nth-child(even) {
+			background-color: blue;
+		}
+	</style>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<!-- <table>
+  <tr ng-repeat="x in names">
+    <td>{{ $index + 1 }}</td>
+    <td>{{ x.Name }}</td>
+    <td>{{ x.Country }}</td>
+  </tr>
+</table> -->
+
+<table>
+<tr ng-repeat="x in names">
+<td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Name }}</td>
+<td ng-if="$even">{{ x.Name }}</td>
+<td ng-if="$odd" style="background-color:#f1f1f1">{{ x.Country }}</td>
+<td ng-if="$even">{{ x.Country }}</td>
+</tr>
+</table>
+
+<script type="text/javascript">
+    var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+        	$scope.names=[{Name:'Jesse',Country:'chaina'},
+        	{Name:'Jesse',Country:'chaina'},
+        	{Name:'Jesse',Country:'chaina'},
+        	{Name:'Jesse',Country:'chaina'},
+        	{Name:'Jesse',Country:'chaina'},
+        	{Name:'Jesse',Country:'chaina'},
+        	{Name:'Jesse',Country:'chaina'}]
+        });
+
+    </script>
+
+
+	
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<h2>AngularJS 依赖注入</h2>
+<pre>
+	wiki 上的解释是：依赖注入（Dependency Injection，简称DI）是一种软件设计模式，在这种模式下，一个或更多的依赖（或服务）被注入（或者通过引用传递）到一个独立的对象（或客户端）中，然后成为了该客户端状态的一部分。
+	该模式分离了客户端依赖本身行为的创建，这使得程序设计变得松耦合，并遵循了依赖反转和单一职责原则。与服务定位器模式形成直接对比的是，它允许客户端了解客户端如何使用该系统找到依赖
+</pre>
+<h3>一句话 --- 没事你不要来找我，有事我会去找你。</h3>
+<pre>
+AngularJS 提供很好的依赖注入机制。以下5个核心组件用来作为依赖注入：
+value
+factory
+service
+provider
+constant
+</pre>
+
+<br>
+<hr>
+<h3>value</h3>
+Value 是一个简单的 javascript 对象，用于向控制器传递值（配置阶段)
+<br>
+<br>
+Name: {{name}}
+<br>
+Sex: {{sex}}
+
+
+<br>
+<br>
+<hr>
+<h3>factory</h3>
+factory 是一个函数用于返回值。在 service 和 controller 需要时创建。
+通常我们使用 factory 函数来计算或返回值。
+<br>
+factory: {{factoryValue}}
+<br>
+service: {{serviceValue}}
+<br>
+provider: {{providerValue}}
+<br>
+configServiceValue : {{configServiceValue}}
+
+
+
+
+
+
+
+<script type="text/javascript">
+	var app = angular.module('myApp', []);
+
+		// 创建 value 对象 "valueInput" 并传递数据
+		app.value("valueInput", {name:'Jesse',sex:'Man'});		
+
+		// 创建 constant 对象 "constantInput" 并传递数据
+		app.constant("constantInput", {name:'Vivian',sex:'Girl'});
+
+		// 创建 factory "MathFactory" 用于两数的乘积 provides a method multiply to return multiplication of two numbers
+		app.factory('MathFactory', function() {
+		   var factory = {};
+		   
+		   factory.multiply = function(a, b) {
+		      return (a * b);
+		   }
+		   return factory;
+		  //  this.multiply = function(a,b){
+				// return (a * b);
+		  //  }
+		}); 
+
+		// 创建 service "MathService" 用于两数的乘积 provides a method multiply to return multiplication of two numbers
+		app.service('MathService', function(MathFactory) {
+		   var factory = {};
+		   
+		   factory.multiply = function(a, b) {
+		      return MathFactory.multiply(a,b);
+		   }
+		   return factory;
+		   
+		  //  this.multiply = function(a,b){
+				// return (a * b);
+		  //  }
+		}); 
+
+		// 创建可以在　config 阶段注入的服务
+		app.provider('whatMyName',function(){
+			console.log('app.provider()');
+
+			var self = this;
+			// 用于在 config 阶段设置默认值
+			self.setName;
+
+			// 这里可以注入其它依赖的服务
+			self.$get = function (constantInput){
+				var factory = {};  
+
+				factory.myName = function() {
+					var name='';
+					if(self.setName){
+						return self.setName;
+					}
+					return constantInput.name;
+				}
+				return factory;
+			}
+		});
+
+		app.config(function($provide,whatMyNameProvider,constantInput){
+			console.log('app.config()');
+			console.log('constantInput: ' + JSON.stringify(constantInput));
+			console.log(whatMyNameProvider.name);
+			whatMyNameProvider.setName = 'kuku';
+
+
+			$provide.provider('MathProvider', function() {
+				this.$get = function() {
+					var factory = {};  
+
+					factory.multiply = function(a, b) {
+						return a * b; 
+					}
+					return factory;
+				};
+			});
+		});
+
+		app.run(function(valueInput){
+			console.log('app.run()');
+			console.log('valueInput: ' +　JSON.stringify(valueInput));
+		});
+
+
+	    app.controller('myCtrl', function($scope,valueInput,MathFactory,MathService,MathProvider,whatMyName,constantInput) {
+	    	$scope.name = valueInput.name;
+	    	$scope.sex = valueInput.sex;
+	    	$scope.factoryValue = MathFactory.multiply(10,8);
+	    	$scope.serviceValue = MathService.multiply(10,8);
+	    	$scope.providerValue = MathProvider.multiply(10,8);
+	    	$scope.configServiceValue = whatMyName.myName();
+
+	    	console.log('contreller constantInput : %o',constantInput);
+
+
+
+
+	    });
+</script>
+</body>
+</html>

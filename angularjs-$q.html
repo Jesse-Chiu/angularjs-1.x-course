@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>$q</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+    <h1>$q</h1>
+    <script type="text/javascript">
+
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope,$q) {
+
+    	function asyncGreet_01(name) {
+            return $q(function(resolve, reject) {
+            	 // throw 'Have some exception!!!';
+            	// 模拟耗时操作，例如读取文件，发起 Ajax 请求
+                setTimeout(function() {
+                    if (name) {
+                        resolve('Hello, ' + name + '!');
+                    } else {
+                        reject('Greeting stranger is not allowed.');
+                    }
+                }, 1000);
+            });
+        }
+
+    	// 1. $q constructor 类似 ES6 的原生 Promse，使用构造函数方式
+
+        // var promise = asyncGreet_01('Jesse Chiu');
+        // promise.then(function(greeting) {
+        //     console.log('Success: ' + greeting);
+        // }, function(reason) {
+        //     console.log('Failed: ' + reason);
+        // });
+
+    	//注意，使用构造函数方法，不能把 throw 转为 reject 来处理。
+		// function asyncGreet_throw(name) {
+
+		// 	return new  Promise(function(resolve, reject) {
+		// 		throw 'Have some exception!!!';
+		// 				// 模拟耗时操作，例如读取文件，发起 Ajax 请求
+		// 		setTimeout(function() {
+		// 				if (name) {
+		// 					resolve('Hello, ' + name + '!');
+		// 				} else {
+		// 					reject('Greeting stranger is not allowed.');
+		// 				}
+		// 			}, 1000);
+		// 	});
+		// }
+
+		// var promise = asyncGreet_throw('Jesse Chiu');
+  //       promise.then(function(greeting) {
+  //           console.log('Success: ' + greeting);
+  //       }, function(reason) {
+  //           console.log('Failed: ' + reason);
+  //       });
+  
+  	// 2. The Deferred API
+  	
+	/*	var deferred = $q.defer();
+
+		Methods
+			resolve(value)
+			reject(reason)
+			notify(value)
+
+		Properties
+			promise			*/
+
+	// 3. The Promise API
+
+	/*	var deferred = $q.defer();
+		deferred.promise;
+
+		Methods
+			then(successCallback, errorCallback, notifyCallback)
+			catch(errorCallback) – shorthand for promise.then(null, errorCallback)
+			finally(callback, notifyCallback)*/
+
+	// function asyncGreet_02(name) {
+	// 	var deferred = $q.defer();
+
+	// 	setTimeout(function() {
+	// 		deferred.notify('About to greet ' + name + ' first');
+
+	// 		if (name) {
+	// 			deferred.notify('About to greet ' + name + ' second');
+	// 			deferred.resolve('Hello, ' + name + '!');
+	// 		} else {
+	// 			deferred.notify('About to greet second');
+	// 			deferred.reject('Greeting stranger is not allowed.');
+	// 		}
+
+	// 	}, 1000);
+
+	// 	return deferred.promise;
+	// }
+
+	// var promise = asyncGreet_01('Jesse Chiu');
+	// promise.then(function(data){
+	// 	console.log('resolve asyncGreet_01: ' + data);
+	// 	return asyncGreet_02();
+	// })
+	// .then(function(greeting) {
+	// 	console.log('Success: ' + greeting);
+	// }, function(reason) {
+	// 	console.log('Failed: ' + reason);
+	// 	// throw 'Have some exception';
+	// }, function(update) {
+	// 	console.log('Got notification: ' + update);
+	// 	// 这里的更新消息会传递到 finally 的 notifyCallback
+	// 	return update; 
+	// })
+	// .catch(function(err){
+	// 	console.log('catch: ' + err);
+	// })
+	// .finally(function(){
+	// 	console.log('finally()');
+	// },function(data){
+	// 	console.log('finally notifyCallback: ' + data);
+	// });
+
+	// 4. $q.reject/resolve
+	// var promise = asyncGreet_01();
+	// promise.then(function(data){
+	// 	console.log('resolve asyncGreet_01: ' + data);
+	// },function(err){
+	// 	console.log('reject-1: ' + err);
+	// 	return $q.reject('$q.reject()');
+	// })
+	// .catch(function(err){
+	// 	console.log('catch: ' + err);
+	// });
+
+	// $q.resolve(100,function(data){
+	// 	console.log('successCallback: ' + data);
+	// 	return data;
+	// })
+	// .then(function(data){
+	// 	console.log('$q.resolve(100): ' + data);
+	// });
+
+	// 5. $q.when(value, [successCallback], [errorCallback], [progressCallback])
+	// function someFun(name){
+ //        if (name) {
+ //            return ('Hello, ' + name + '!');
+ //        } else {
+ //            return ('Greeting stranger is not allowed.');
+ //        }
+	// }
+
+	// // 注意这里的 when 的第一个参数是个值
+	// $q.when(someFun('Jesse'),function(data){
+	// 	console.log('when success: ' + data);
+	// 	return data;
+	// },function(err){
+	// 	console.log('when fail: ' + err);
+	// 	return err;
+	// },function(update){
+	// 	console.log('when update: ' + update);
+	// 	return update;
+	// })
+	// .then(function(data){
+	// 	console.log('then success: ' + data);
+	// },function(err){
+	// 	console.log('then fail: ' + err);
+	// },function(update){
+	// 	console.log('then update: ' + update);
+	// });
+
+	// 6. $q.all(promises)
+	function asynFun_01(){
+			var deferred = $q.defer();
+			setTimeout(function(){
+				console.log('resolve asynFun_01');
+				deferred.resolve('asynFun_01');
+			},500);
+			return deferred.promise;
+		}
+
+	function asynFun_02(){
+		var deferred = $q.defer();
+		setTimeout(function(){
+			console.log('resolve asynFun_02');
+			deferred.resolve('asynFun_02');
+		},1000);
+		return deferred.promise;
+	}
+
+	function asynFun_03(){
+		var deferred = $q.defer();
+		setTimeout(function(){
+			console.log('resolve asynFun_03');
+			deferred.resolve('asynFun_03');
+			// console.log('reject asynFun_03');
+			// deferred.reject('reject asynFun_03');
+		},200);
+		return deferred.promise;
+	}
+
+	function asynFun_04(){
+		var deferred = $q.defer();
+		setTimeout(function(){
+			console.log('resolve asynFun_04');
+			deferred.resolve('asynFun_04');
+		},100);
+		return deferred.promise;
+	}
+
+	// $q.all({asy1:asynFun_01(),
+	// 	asy2:asynFun_02(),
+	// 	asy3:asynFun_03(),
+	// 	asy4:asynFun_04()
+	// })
+	// .then(function(data){
+	// 	console.log('success: ' + JSON.stringify(data));
+	// });
+	
+	// $q.all([asynFun_01(),asynFun_02(),asynFun_03(),asynFun_04()])
+	// .then(function(data){
+	// 	console.log('all success: ' + data);
+	// })
+	// .catch(function(err){
+	// 	console.log('catch: ' + err);
+	// });
+
+	// 注意执行是并行执行，结果是按照执行顺序。
+	// 如果其中一个 reject 则执行 then 的 fallCallbck 值为 reject 的值，但是其它的 promise 还是会继续运行。
+	// 
+	
+	// 7. 链式编程
+		//a. 不安顺序执行
+		// var asyFunArray = [asynFun_01,asynFun_02,asynFun_03,asynFun_04];
+		// $q.all(asyFunArray.map(function(item){
+		// 	return item();
+		// }))
+		// 	.then(function(data){
+		// 		console.log('resolve :' + JSON.stringify(data));
+		// 	})
+		// 	.catch(function(err){
+		// 		console.log('catch: ' + err);
+		// 	});
+		// 这里先把异步执行函数存储到一个数组，再用数组的 map 方法遍历执行并返回一个数组 promise 给 $q.all.
+		
+
+		// b. 按顺序执行
+		// 方法一
+			// asynFun_01()
+			// 	.then(asynFun_02)
+			// 	.then(asynFun_03)
+			// 	.then(asynFun_04)
+			// 	.then(function(data){
+			// 		console.log('resolve: ' + JSON.stringify(data));
+			// 	})
+			// 	.catch(function(err){
+			// 		console.log('catch: ' + err);
+			// 	})
+			// 	.finally(function(data){
+			// 		console.log('finally: ' + data);
+			// 	});
+			// 这种方法不能动态编程
+			
+		// 方法二
+			// var asyFunArray = [asynFun_01,asynFun_02,asynFun_03,asynFun_04];
+			
+			// asyFunArray.reduce(function(soFar,next){
+			// 	return soFar.then(function(){
+			// 		return next();
+			// 	});
+			// },$q.resolve())
+			// .then(function(data){
+			// 	console.log('resolve: ' + JSON.stringify(data));
+			// })
+			// .catch(function(err){
+			// 	console.log('catch: ' + err);
+			// });
+
+			// reduce 的返回值是最后一个回调函数的值。
+		
+
+
+
+
+    });
+    </script>
+</body>
+
+</html>

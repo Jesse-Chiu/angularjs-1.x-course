@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<h2>ng-disabled 指令</h2>
+	<p>
+		<button ng-disabled="mySwitch">点我!</button>
+	</p>
+
+	<p>
+		<input type="checkbox" ng-model="mySwitch">按钮
+	</p>
+
+	<p>
+		mySwitch: {{ mySwitch }}
+	</p>
+	<br>
+
+<h2>ng-show 指令</h2>
+<small>ng-show 指令隐藏或显示一个 HTML 元素</small>
+<p ng-show="true">我是可见的。</p>
+<p ng-show="false">我是不可见的。</p>
+
+<br>
+<h2>ng-hide 指令</h2>
+<p ng-hide="true">我是不可见的。</p>
+<p ng-hide="false">我是可见的。</p>
+
+
+
+
+<script type="text/javascript">
+    var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+
+        });
+
+</script>
+</body>
+</html>

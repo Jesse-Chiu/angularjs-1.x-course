@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<h1 style="text-align: center">{{hello}}</h1>
+
+<script type="text/javascript">
+    var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+        	$scope.hello = 'Hello AngularJs';
+        });
+</script>
+
+</body>
+</html>

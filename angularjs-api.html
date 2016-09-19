@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+<h2>AngularJS 全局 API</h2>
+<small>AngularJS 全局 API 用于执行常见任务的 JavaScript 函数集合</small>
+
+<p>{{ x1 }}</p>
+<p>{{ x2 }}</p>
+
+<script type="text/javascript">
+    var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+			$scope.x1 = "JOHN";
+			$scope.x2 = angular.isNumber($scope.x1);
+        });
+
+</script>
+</body>
+</html>

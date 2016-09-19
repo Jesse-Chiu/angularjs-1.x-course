@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="./lib/angular.js"></script>
+</head>
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<h2>ng-click 指令</h2>
+<button ng-click="count = count + 1">点我！</button>
+<p>{{ count }}</p>
+
+<br>
+<button ng-click="toggle()">隐藏/显示</button>
+<button onclick="jsToggle()">隐藏/显示</button>
+
+<p ng-hide="myVar">
+名: <input type="text" ng-model="firstName"><br>
+姓名: <input type="text" ng-model="lastName"><br>
+<br>
+Full Name: {{firstName + " " + lastName}}
+</p>
+
+
+
+
+<script type="text/javascript">
+	function jsToggle(){
+		alert('jsToggle()');
+	}
+    var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope) {
+			$scope.firstName = "John",
+			$scope.lastName = "Doe"
+
+			$scope.myVar = false;
+			$scope.toggle = function() {
+				console.log($scope.myVar);
+				$scope.myVar = !$scope.myVar;
+				console.log($scope.myVar);
+
+			};
+
+        });
+
+</script>
+</body>
+</html>
