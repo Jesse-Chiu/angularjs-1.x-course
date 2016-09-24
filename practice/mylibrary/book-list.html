@@ -1,0 +1,38 @@
+<table class="table table-bordered table-striped table-responsive">
+  <caption>BookList</caption>
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>书名号</th>
+      <th>书名</th>
+      <th>作者</th>
+      <th>简介</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="book in books">
+
+      <td>{{ book.id }}</td>
+      <td>{{ book.coding }}</td>
+      <td>{{ book.bookName }}</td>
+      <td>{{ book.author }}</td>
+
+      <td>
+        <button class="btn" ng-click="editBook($index)">
+          <span class="glyphicon glyphicon-pencil"></span>修改
+        </button>
+        <button class="btn" ng-click="deleteBook($index)">
+          <span class="glyphicon glyphicon-pencil"></span>删除
+        </button>
+      </td>
+
+    </tr>
+  </tbody>
+</table>
+
+<hr>
+
+<button class="btn btn-success" ng-click="addBook()">AddBook</button>
+
+<button class="btn btn-danger" ng-click="exit()">Exit</button>
+

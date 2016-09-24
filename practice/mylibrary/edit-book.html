@@ -1,0 +1,33 @@
+<form class="form-horizontal" role="form">
+
+  <div class="form-group">
+    <label for="coding" class="col-sm-offset-2 col-sm-2 control-label">Coding</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="coding" ng-model="book.coding" placeholder="coding">
+    </div>
+  </div>  
+
+  <div class="form-group">
+    <label for="userName" class="col-sm-offset-2 col-sm-2 control-label">BookName</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="userName" ng-model="book.bookName" placeholder="BookName">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="author" class="col-sm-offset-2 col-sm-2 control-label">Author</label>
+    <div class="col-sm-4">
+      <input type="text" class="form-control" id="author" ng-model="book.author" maxlength="8" minlength="4" placeholder="author">
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-4 col-sm-2">
+      <button class="btn btn-success" ng-click="confirm()">Confirm</button>
+    </div>    
+    <div class="col-sm-2">
+      <button class="btn btn-default" ng-click="cancel()">Cancel</button>
+    </div>
+  </div>
+
+</form>
